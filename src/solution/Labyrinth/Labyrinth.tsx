@@ -27,6 +27,12 @@ const formatSamePos = (firstPos: any, secondPos: any, nameFormat = "") => {
 };
 
 const reducer = (state: any, action: any) => {
+  if (action.type === "reset") {
+    return {
+      ...action.payload,
+    };
+  }
+
   const { currPos, movesLeft, isGameWon } = state;
   if (movesLeft && !isGameWon) {
     const [height, width] = currPos;
@@ -136,9 +142,32 @@ const Labyrinth = ({
           </div>
         );
       })}
-      <div className="game-details">movesLeft: {movesLeft}</div>
-      {isGameEnd ? <div className="game-end">Game has ended</div> : null}
-      {isGameWon ? <div> You won the game</div> : null}
+      <div className="game-details">
+        <h2>Game Details</h2>
+        <p>Total Moves: {moveLimit}</p>
+        <p>Moves Left: {movesLeft}</p>
+      </div>
+      {isGameEnd || isGameWon ? (
+        <div className="game-end">
+          {isGameEnd ? <div>Game has ended</div> : null}
+          {isGameWon ? <div> You won the game</div> : <div>You lose!</div>}
+          <button
+            onClick={() =>
+              dispatchPos({
+                type: "reset",
+                payload: {
+                  currPos: [...startingPosition],
+                  movesLeft: moveLimit,
+                  isGameEnd: false,
+                  isGameWon: false,
+                },
+              })
+            }
+          >
+            Reset Game
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
