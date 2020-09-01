@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 
 /** keep, add, change or remove types/props */
 export type Position = [/** row */ number, /** col */ number];
@@ -28,8 +28,7 @@ const formatSamePos = (firstPos: any, secondPos: any, nameFormat = "") => {
 
 const reducer = (state: any, action: any) => {
   const { currPos, movesLeft, isGameWon } = state;
-  console.log(isGameWon);
-  if (movesLeft) {
+  if (movesLeft && !isGameWon) {
     const [height, width] = currPos;
     const {
       height: maxHeight,
@@ -91,7 +90,6 @@ const Labyrinth = ({
   });
 
   const { currPos, movesLeft, isGameEnd, isGameWon } = labState;
-  console.log(isGameWon);
 
   const handleEvent = (e: any) => {
     dispatchPos({
@@ -106,7 +104,7 @@ const Labyrinth = ({
     return () => {
       document.removeEventListener("keyup", handleEvent);
     };
-  });
+  }, []);
 
   return (
     <div className="labyrinth">
@@ -120,6 +118,7 @@ const Labyrinth = ({
 
           return (
             <div
+              key={rowIdx + colIdx}
               style={{
                 width: `${cellSize}px`,
                 height: `${cellSize}px`,
@@ -131,10 +130,15 @@ const Labyrinth = ({
           );
         });
 
-        return <div className="row">{rowCells}</div>;
+        return (
+          <div className="row" key={colIdx}>
+            {rowCells}
+          </div>
+        );
       })}
       <div className="game-details">movesLeft: {movesLeft}</div>
       {isGameEnd ? <div className="game-end">Game has ended</div> : null}
+      {isGameWon ? <div> You won the game</div> : null}
     </div>
   );
 };

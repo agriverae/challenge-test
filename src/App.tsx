@@ -24,7 +24,6 @@ const createRandomPos = (maxWidth: number, maxHeight: number) => {
 };
 
 function App() {
-  console.log("hi");
   return (
     <Solution
       targetPosition={[6, 9]}
