@@ -3,6 +3,11 @@ html {
   height: 100%;
 }
 
+* {
+  padding: 0;
+  margin: 0;
+}
+
 *,
 *::after,
 *::before {
@@ -18,11 +23,23 @@ body {
   min-height: 100%;
 }
 
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intro button {
+  margin-top: 20px;
+  width: 300px;
+}
+
 .row {
   display: flex;
 }
 
 .cell {
+  border: 0.5px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,7 +47,7 @@ body {
 }
 
 .cell.valid {
-  background-color: green;
+  background-color: white;
 }
 
 .cell.currPos {
@@ -43,6 +60,20 @@ body {
 
 .cell.end {
   background-color: yellow;
+}
+
+.game {
+  display: flex;
+}
+
+.labyrinth {
+  margin-right: 60px;
+}
+
+.game-details {
+  border: 1px solid black;
+  padding: 15px;
+  border-radius: 30px;
 }
 
 .game-end {

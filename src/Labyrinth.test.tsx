@@ -23,9 +23,7 @@ describe("Labyrinth", () => {
   });
 
   it("should win", () => {
-    const { container, getByTestId, queryByTestId } = render(
-      <Labyrinth {...props} />
-    );
+    const { container, queryByText } = render(<Labyrinth {...props} />);
     fireEvent.keyDown(container, { key: "ArrowRight" });
     fireEvent.keyDown(container, { key: "ArrowRight" });
     fireEvent.keyDown(container, { key: "ArrowDown" });
@@ -34,19 +32,17 @@ describe("Labyrinth", () => {
     fireEvent.keyDown(container, { key: "ArrowDown" });
     fireEvent.keyDown(container, { key: "ArrowRight" });
     fireEvent.keyDown(container, { key: "ArrowRight" });
-    expect(getByTestId("moves-message").textContent).toEqual("moves left 2");
-    expect(queryByTestId("win-message")).toBeTruthy();
-    expect(queryByTestId("lose-message")).not.toBeTruthy();
+    expect(queryByText("You won the game")).toBeTruthy();
+    expect(queryByText("You lose!")).not.toBeTruthy();
   });
 
   it("should lose", () => {
-    const { container, getByTestId, queryByTestId } = render(
+    const { container, queryByText } = render(
       <Labyrinth {...props} moveLimit={2} />
     );
     fireEvent.keyDown(container, { key: "ArrowRight" });
     fireEvent.keyDown(container, { key: "ArrowRight" });
-    expect(getByTestId("moves-message").textContent).toEqual("moves left 0");
-    expect(queryByTestId("win-message")).not.toBeTruthy();
-    expect(queryByTestId("lose-message")).toBeTruthy();
+    expect(queryByText("You won the game")).not.toBeTruthy();
+    expect(queryByText("You lose!")).toBeTruthy();
   });
 });
